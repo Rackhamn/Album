@@ -10,7 +10,7 @@ Master can be connected to any computer over the Atmega32u4 Micro-B port. The ma
 The source code will be published along with the corresponding dependencies for compiling everything along with the USB layer/keymap/macro updater scripts.  
   
 ## Case and Materials  
-The `STL` files can be found here `link`.  
+The `STL` files can be found [here](/case/).  
 The bill-of-materials can be found here `link`.  
   
 ## Photos  
