@@ -37,4 +37,6 @@ Fantastic website with lots of references for keyboard design!
 [kbd.news](https://kbd.news)  
   
 Great jumping off point to be able to start working on a deeper implementation of USB-HID on the Atmega32u4.  
-[KMani314's Atmega32u4 HID Keyboard](https://github.com/kmani314/ATMega32u4-HID-Keyboard)
+[KMani314's Atmega32u4 HID Keyboard](https://github.com/kmani314/ATMega32u4-HID-Keyboard)  
+  
+Font is Cinzel Regular by ndiscovered, you can download it [here](https://www.1001fonts.com/cinzel-font.html)  
