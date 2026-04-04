@@ -1,13 +1,22 @@
 # Album
-Album is a 36-key split keyboard with a custom firmware for the Atmega32u4.  
+Album is a 36-key split keyboard with a custom firmware for the Atmega32u4 MCU.  
+> Specifically Adafriut's ItsyBitsy Atmega32u4 16MHz 5V version found [here](https://www.adafruit.com/product/3677).  
   
-It has a column-stagger, two thumb keys and a TOTEM inspired pinky key. The inital version did have a significant splay on the outer columns and the thumb keys, however my 3D printer had enough issues with layer shifting and thus I had to simplify it for V1.  
+It has a column-stagger with each half having two thumb keys and a [TOTEM](https://github.com/GEIGEIGEIST/TOTEM) inspired pinky key.  
+The inital version did have a significant splay on the outer columns and the thumb keys, however my 3D printer had enough issues with layer shifting and thus I had to simplify it for V1.  
   
 Album firmware currently runs the master code on the `LEFT` and the slave on the `RIGHT`.  
-Master can be connected to any computer over the Atmega32u4 Micro-B port. The master and the slave parts can be connected over the TRRS jack.  
+Master can be connected to any computer over the Atmega32u4 Micro-B port.  
+The master and the slave parts can be connected over the TRRS jack.  
+  
+The Album firmware does not plan to rival others like [QMK](https://github.com/qmk/qmk_firmware), instead it was a challenging but fun process to plan and build out the features that I personally wanted to use.  
+A previous `DEMO` version used a single 3x3 macro-pad style keyboard and a [VIAL](https://github.com/vial-kb/vial-qmk)-like keymap updater (through the USB-HID Vendor Reports) that does not need to compile or re-flash the firmware just to update a single keymap value change. It recieved a correct HID Report in a format according to a very simple protocol and overwrote the keymap in `SRAM` but also the stored keymap in `EEPROM`.  
+*Very nice*.  
+  
+I am working on the new version for the V1 release and so far it seems very promising!  
 
 ## On the Source  
-This is a final project for an IoT-and embedded systems degree, the final source will be published at the end of the project date.  
+This is a final project for an __IoT- and Embedded Systems Degree__, the final source will be published at the end of the project.  
 The source code will be come with the corresponding dependencies and build scripts for compiling everything along with the USB layer/keymap/macro updater scripts.  
   
 ## Case and Materials  
@@ -21,6 +30,9 @@ The bill-of-materials can be found here `link`.
 ## Credits
 Really cool initial inspiration from the TOTEM keyboard in terms of visual design.  
 [TOTEM Keyboard by GEIGEIGEIST](https://github.com/GEIGEIGEIST/TOTEM)  
+
+Fantastic website with lots of references for keyboard design!  
+[kbd.news](https://kbd.news)  
   
 Great jumping off point to be able to start working on a deeper implementation of USB-HID on the Atmega32u4.  
 [KMani314's Atmega32u4 HID Keyboard](https://github.com/kmani314/ATMega32u4-HID-Keyboard)
