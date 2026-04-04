@@ -7,7 +7,8 @@ Album firmware currently runs the master code on the `LEFT` and the slave on the
 Master can be connected to any computer over the Atmega32u4 Micro-B port. The master and the slave parts can be connected over the TRRS jack.  
 
 ## On the Source  
-The source code will be published along with the corresponding dependencies for compiling everything along with the USB layer/keymap/macro updater scripts.  
+This is a final project for an IoT-and embedded systems degree, the final source will be published at the end of the project date.  
+The source code will be come with the corresponding dependencies and build scripts for compiling everything along with the USB layer/keymap/macro updater scripts.  
   
 ## Case and Materials  
 The `STL` files can be found [here](/case/).  
