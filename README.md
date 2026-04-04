@@ -40,3 +40,9 @@ Great jumping off point to be able to start working on a deeper implementation o
 [KMani314's Atmega32u4 HID Keyboard](https://github.com/kmani314/ATMega32u4-HID-Keyboard)  
   
 Font is Cinzel Regular by ndiscovered, you can download it [here](https://www.1001fonts.com/cinzel-font.html)  
+
+Switch and Keycaps:  
+[Switch (Kailh Choc low-profile white/clicky)](https://chosfox.com/products/kailh-chocs)  
+[Keycaps (Choc low-profile 1U white)](https://chosfox.com/products/chocfox-cfx-choc-keycaps)  
+> If you are going to make your own, I would recommend using slient tactile switches instead. The clicky ones are slightly echo-y in the V1 case unless you add support foam etc...
+  
