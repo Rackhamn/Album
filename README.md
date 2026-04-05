@@ -1,7 +1,7 @@
 ![Album Logo Demo (Font is Cinzel Regular by ndiscovered)](/img/Album_logo_demo.png)  
 
 # ALBUM
-Album is a 36-key split keyboard with a custom firmware for the Atmega32u4 MCU.  
+Album is a handwired 36-key split keyboard with a custom firmware for the Atmega32u4 MCU.  
 > Specifically Adafriut's ItsyBitsy Atmega32u4 16MHz 5V version found [here](https://www.adafruit.com/product/3677).  
   
 It has a column-stagger with each half having two thumb keys and a [TOTEM](https://github.com/GEIGEIGEIST/TOTEM) inspired pinky key.  
