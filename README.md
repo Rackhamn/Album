@@ -1,4 +1,8 @@
-![Album Logo Demo (Font is Cinzel Regular by ndiscovered)](/img/Album_logo_demo.png)  
+<picture align="center">
+  <source media="(prefers-color-scheme: dark)" srcset="/img/Album_logo_demo_dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="/img/Album_logo_demo_light.png">
+  <img alt="[Album Logo Demo]" src="/img/Album_logo_demo_light.png">
+</picture>
 
 # ALBUM
 Album is a handwired 36-key split keyboard with a custom firmware for the Atmega32u4 MCU.  
@@ -39,7 +43,7 @@ Fantastic website with lots of references for keyboard design!
 Great jumping off point to be able to start working on a deeper implementation of USB-HID on the Atmega32u4.  
 [KMani314's Atmega32u4 HID Keyboard](https://github.com/kmani314/ATMega32u4-HID-Keyboard)  
   
-Font is Cinzel Regular by ndiscovered, you can download it [here](https://www.1001fonts.com/cinzel-font.html)  
+Font is Cinzel-Regular by ndiscovered, you can download it [here](https://www.1001fonts.com/cinzel-font.html)  
 
 Switch and Keycaps:  
 [Switch (Kailh Choc low-profile white/clicky)](https://chosfox.com/products/kailh-chocs)  
