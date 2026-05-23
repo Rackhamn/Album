@@ -55,6 +55,7 @@ typedef u16 keyval_t;
 #define DK(index) \
 	KEY_PACK(KEY_TYPE_DEV, 0, 0x00, (index))
 
+// todo: media is packing incorrectly rn
 #define M(value) \
 	KEY_PACK(KEY_TYPE_MEDIA, 0, 0x00, value)
 
