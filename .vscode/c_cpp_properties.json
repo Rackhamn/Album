@@ -1,0 +1,20 @@
+{
+	"configurations": [
+		{
+			"name": "AVR",
+			"includePath": [
+				"${workspaceFolder}/**",
+				"C:/msys64/mingw64/avr/include"
+			],
+			"defines": [
+				"__AVR_ATmega32U4__",
+				"F_CPU=16000000UL"
+			],
+			"intelliSenseMode": "gcc-x64",
+			"compilerPath": "C:/msys64/mingw64/bin/avr-gcc.exe",
+			"cStandard": "c11",
+			"cppStandard": "c++17"
+		}
+	],
+	"version": 4
+}

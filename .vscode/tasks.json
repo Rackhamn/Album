@@ -1,0 +1,76 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install Build Dependencies (Mingw64)",
+			"type": "shell",
+			// C:/msys64/msys2_shell.cmd for some
+			"command": "C:/msys64/usr/bin/bash.exe",
+			"args": [
+				"-lc",
+				"pacman -S --needed --noconfirm mingw-w64-x86_64-cmake mingw-w64-x86_64-make mingw-w64-x86_64-avr-gcc mingw-w64-x86_64-avr-binutils mingw-w64-x86_64-avr-libc mingw-w64-x86_64-avrdude mingw-w64-x86_64-ninja && make"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Prepare Build Folder",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"if (-Not (Test-Path '${workspaceFolder}/build')) { New-Item -ItemType Directory -Path '${workspaceFolder}/build' }; cd '${workspaceFolder}/build'; cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/avr-toolchain.cmake .."
+			],
+			"group": "build"
+		},
+		{
+			"label": "CMake Configure (AVR)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"-G", "Ninja",
+				"-DCMAKE_TOOLCHAIN_FILE=${workspaceFolder}/avr-toolchain.cmake",
+				"${workspaceFolder}"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"group": "build"
+		},
+		{
+			"label": "CMake Build (AVR)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build", "."
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+			"group": "build"
+		},
+		{
+			"label": "Flash ItsyBitsy 32U4 - MASTER",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"Write-Host 'Double-tap the reset button on the ItsyBitsy 32U4 now, then press Enter...'; Read-Host; avrdude -p atmega32u4 -c avr109 -P COM8 -b 57600 -B 1 -U flash:w:${workspaceFolder}/build/skb_avr_atmega32u4_master.hex -U eeprom:w:${workspaceFolder}/build/skb_avr_atmega32u4_master.eep"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Flash ItsyBitsy 32U4 - SLAVE",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"Write-Host 'Double-tap the reset button on the ItsyBitsy 32U4 now, then press Enter...'; Read-Host; avrdude -p atmega32u4 -c avr109 -P COM8 -b 57600 -B 1 -U flash:w:${workspaceFolder}/build/skb_avr_atmega32u4_slave.hex -U eeprom:w:${workspaceFolder}/build/skb_avr_atmega32u4_slave.eep"
+			],
+			"group": "build"
+		}
+	]
+}
