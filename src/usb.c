@@ -7,21 +7,22 @@
 #include <util/delay.h>
 #include "avr/io.h"
 
+#include "types.h"
 #include "usb.h"
 
-volatile uint8_t keyboard_pressed_keys[6] = {0, 0, 0, 0, 0, 0};
-volatile uint8_t keyboard_modifier = 0;
-volatile uint16_t consumer_key = 0;  // Current consumer key
+volatile u8 keyboard_pressed_keys[6] = {0, 0, 0, 0, 0, 0};
+volatile u8 keyboard_modifier = 0;
+volatile u16 consumer_key = 0;  // Current consumer key
 
-static uint16_t keyboard_idle_value = 125;
-static uint8_t current_idle = 0;
-static uint8_t this_interrupt = 0;
+static u16 keyboard_idle_value = 125;
+static u8 current_idle = 0;
+static u8 this_interrupt = 0;
 
 volatile u8 usb_config_status = 0;
 volatile u8 keyboard_protocol = 0;
 	
 // Device Descriptor
-static const uint8_t device_descriptor[] PROGMEM = {
+static const u8 device_descriptor[] PROGMEM = {
 	18,			  // bLength
 	1,			  // bDescriptorType: Device
 	0x00, 0x02,   // bcdUSB: USB 2.0
@@ -40,7 +41,7 @@ static const uint8_t device_descriptor[] PROGMEM = {
 
 // Keyboard HID Report Descriptor (page 0x07)
 // Standard 6KRO boot-protocol keyboard
-static const uint8_t keyboard_HID_descriptor[] PROGMEM = {
+static const u8 keyboard_HID_descriptor[] PROGMEM = {
 	0x05, 0x01,	// Usage Page: Generic Desktop
 	0x09, 0x06,	// Usage: Keyboard
 	0xA1, 0x01,	// Collection: Application
@@ -85,7 +86,7 @@ static const uint8_t keyboard_HID_descriptor[] PROGMEM = {
 
 // Consumer HID Report Descriptor (page 0x0C)
 // Single 16-bit consumer control code
-static const uint8_t consumer_HID_descriptor[] PROGMEM = {
+static const u8 consumer_HID_descriptor[] PROGMEM = {
 	0x05, 0x0C,			// Usage Page: Consumer
 	0x09, 0x01,			// Usage: Consumer Control
 	0xA1, 0x01,			// Collection: Application
@@ -99,7 +100,7 @@ static const uint8_t consumer_HID_descriptor[] PROGMEM = {
 	0xC0				// End Collection
 };
 
-static const uint8_t configuration_descriptor[] PROGMEM = {
+static const u8 configuration_descriptor[] PROGMEM = {
 	// --- Configuration Descriptor ---
 	9,					  // bLength
 	2,					  // bDescriptorType: Configuration
@@ -232,8 +233,8 @@ int send_consumer_key(u16 keycode) {
 
 	// Send key press
 	UENUM = CONSUMER_ENDPOINT_NUM;
-	UEDATX = (uint8_t)(keycode & 0xFF);
-	UEDATX = (uint8_t)(keycode >> 8);
+	UEDATX = (u8)(keycode & 0xFF);
+	UEDATX = (u8)(keycode >> 8);
 	UEINTX = 0b00111010;
 
 	_delay_ms(10);
@@ -249,7 +250,7 @@ int send_consumer_key(u16 keycode) {
 
 // USB_GEN_vect, End of Reset + SOF
 ISR(USB_GEN_vect) {
-	uint8_t intbits = UDINT;
+	u8 intbits = UDINT;
 	UDINT = 0;
 
 	// End of Reset
@@ -289,8 +290,8 @@ ISR(USB_GEN_vect) {
 
 // USB_COM_vect, EP0 control endpoint
 ISR(USB_COM_vect) {
-	uint8_t bmRequestType, bRequest;
-	uint16_t wValue, wIndex, wLength;
+	u8 bmRequestType, bRequest;
+	u16 wValue, wIndex, wLength;
 
 	UENUM = 0;
 	if (!(UEINTX & (1 << RXSTPI))) return;
@@ -298,18 +299,18 @@ ISR(USB_COM_vect) {
 	// Read SETUP packet
 	bmRequestType = UEDATX;
 	bRequest = UEDATX;
-	wValue  = UEDATX | ((uint16_t)UEDATX << 8);
-	wIndex  = UEDATX | ((uint16_t)UEDATX << 8);
-	wLength = UEDATX | ((uint16_t)UEDATX << 8);
+	wValue  = UEDATX | ((u16)UEDATX << 8);
+	wIndex  = UEDATX | ((u16)UEDATX << 8);
+	wLength = UEDATX | ((u16)UEDATX << 8);
 
 	UEINTX &= ~((1 << RXSTPI) | (1 << RXOUTI) | (1 << TXINI));
 
 	if (bRequest == GET_DESCRIPTOR) {
-		const uint8_t *descriptor = 0;
-		uint16_t descriptor_length = 0;
+		const u8 *descriptor = 0;
+		u16 descriptor_length = 0;
 
-		uint8_t desc_type  = (wValue >> 8) & 0xFF;
-		uint8_t desc_index = wValue & 0xFF;
+		u8 desc_type  = (wValue >> 8) & 0xFF;
+		// u8 desc_index = wValue & 0xFF;
 
 		switch(desc_type) {
 			case DESC_DEVICE: {
@@ -321,7 +322,7 @@ ISR(USB_COM_vect) {
 				descriptor_length = CONFIG_SIZE;
 			} break;
 			case DESC_HID_DESCRIPTOR: {
-				uint8_t iface = wIndex & 0xFF;
+				u8 iface = wIndex & 0xFF;
 				if (iface == KEYBOARD_INTERFACE) {
 					descriptor = configuration_descriptor + KEYBOARD_HID_OFFSET;
 					descriptor_length = 9;
@@ -331,7 +332,7 @@ ISR(USB_COM_vect) {
 				}
 			} break;
 			case DESC_HID_REPORT_DESCRIPTOR: {
-				uint8_t iface = wIndex & 0xFF;
+				u8 iface = wIndex & 0xFF;
 				if (iface == KEYBOARD_INTERFACE) {
 					descriptor = keyboard_HID_descriptor;
 					descriptor_length = KEYBOARD_HID_DESC_SIZE;
@@ -348,15 +349,15 @@ ISR(USB_COM_vect) {
 		}
 
 		// Send descriptor
-		uint16_t request_length = (wLength > 255) ? 255 : wLength;
+		u16 request_length = (wLength > 255) ? 255 : wLength;
 		descriptor_length = (request_length > descriptor_length) ? descriptor_length : request_length;
 
 		while (descriptor_length > 0) {
 			while (!(UEINTX & (1 << TXINI)));
 			if (UEINTX & (1 << RXOUTI)) return;
 
-			uint8_t packet_size = (descriptor_length > 32) ? 32 : descriptor_length;
-			for (uint8_t i = 0; i < packet_size; i++) {
+			u8 packet_size = (descriptor_length > 32) ? 32 : descriptor_length;
+			for (u8 i = 0; i < packet_size; i++) {
 				UEDATX = pgm_read_byte(descriptor++);
 			}
 
@@ -411,7 +412,7 @@ ISR(USB_COM_vect) {
 	}
 
 	// HID class requests
-	uint8_t iface = wIndex & 0xFF;
+	u8 iface = wIndex & 0xFF;
 
 	// GET_REPORT
 	if (bRequest == GET_REPORT && bmRequestType == 0xA1) {
@@ -422,8 +423,8 @@ ISR(USB_COM_vect) {
 				UEDATX = keyboard_pressed_keys[i];
 			}
 		} else if (iface == CONSUMER_INTERFACE) {
-			UEDATX = (uint8_t)(consumer_key & 0xFF);
-			UEDATX = (uint8_t)(consumer_key >> 8);
+			UEDATX = (u8)(consumer_key & 0xFF);
+			UEDATX = (u8)(consumer_key >> 8);
 		}
 		UEINTX &= ~(1 << TXINI);
 		return;
